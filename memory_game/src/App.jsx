@@ -1,9 +1,17 @@
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import SelectDifficulty from './SelectDifficulty';
 
 function App() {
+  const [showSelect, setShowSelect] = useState(false);
+
   const handlePlay = () => {
-    window.location.href = "game.html";
+    setShowSelect(true);
   };
+
+  if (showSelect) {
+    return <SelectDifficulty />;
+  }
 
   return (
     <div className="app-container">
@@ -18,4 +26,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
