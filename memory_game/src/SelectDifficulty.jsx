@@ -1,25 +1,34 @@
+import { useState } from 'react';
 import './App.css';
+import Game from './Game';
 
 function SelectDifficulty() {
-  const handleSelect = (mode) => {
-    // You can change this to use React Router or state as needed
-    window.location.href = `game.html?mode=${mode}`;
-  };
+  const [selected, setSelected] = useState(null);
+
+  if (selected) {
+    const config = {
+      easy: { rows: 4, cols: 4 },
+      medium: { rows: 4, cols: 6 },
+      hard: { rows: 6, cols: 6 }
+    };
+    const { rows, cols } = config[selected];
+    return <Game rows={rows} cols={cols} />;
+  }
 
   return (
     <div className="app-container">
-      <div className="pony-emoji" role="img" aria-label="Unicorn" style={{ fontSize: '5rem', marginBottom: '20px' }}>
+      <div className="pony-emoji difficulty-emoji" role="img" aria-label="Unicorn">
         🦄
       </div>
       <h1>Select Difficulty</h1>
-      <div style={{ display: 'flex', gap: '2rem', flexDirection: 'column', alignItems: 'center' }}>
-        <button className="play-btn" onClick={() => handleSelect('easy')}>
+      <div className="difficulty-buttons">
+        <button className="play-btn" onClick={() => setSelected('easy')}>
           Easy (4x4)
         </button>
-        <button className="play-btn" onClick={() => handleSelect('medium')}>
+        <button className="play-btn" onClick={() => setSelected('medium')}>
           Medium (4x6)
         </button>
-        <button className="play-btn" onClick={() => handleSelect('hard')}>
+        <button className="play-btn" onClick={() => setSelected('hard')}>
           Hard (6x6)
         </button>
       </div>

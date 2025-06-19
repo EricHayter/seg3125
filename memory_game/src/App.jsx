@@ -15,7 +15,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <div className="pony-emoji" role="img" aria-label="Unicorn" style={{ fontSize: '7rem', marginBottom: '20px' }}>
+      <div className="pony-emoji main-pony-emoji" role="img" aria-label="Unicorn">
         🦄
       </div>
       <h1>My Little Pony Memory Game</h1>
