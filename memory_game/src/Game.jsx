@@ -24,6 +24,7 @@ function Game({ rows, cols }) {
   // Prepare shuffled cards with pairs of images
   const [cards, setCards] = useState([]);
   const [showAll, setShowAll] = useState(true);
+  const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
     // Pick images for pairs
@@ -31,12 +32,33 @@ function Game({ rows, cols }) {
     const cardImages = shuffle([...selectedImages, ...selectedImages]);
     setCards(cardImages);
     setShowAll(true);
+    setCountdown(5);
     const timer = setTimeout(() => setShowAll(false), 5000);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [rows, cols]);
+
+  useEffect(() => {
+    let interval;
+    if (showAll) {
+      setCountdown(5);
+      interval = setInterval(() => {
+        setCountdown(prev => prev > 1 ? prev - 1 : 1);
+      }, 1000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [showAll]);
 
   return (
     <div className="game-container">
+      {showAll && (
+        <div style={{ fontSize: '2rem', color: 'var(--accent)', marginBottom: '10px' }}>
+          Memorize the cards! {countdown}
+        </div>
+      )}
       <div
         className="game-grid"
         style={{
