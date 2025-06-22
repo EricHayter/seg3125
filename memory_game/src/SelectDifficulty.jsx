@@ -15,10 +15,7 @@ function SelectDifficulty() {
   }
 
   return (
-    <div className="app-container">
-      <div className="pony-emoji difficulty-emoji" role="img" aria-label="Unicorn">
-        🦄
-      </div>
+    <div className="app-container menu-box">
       <h1>Select Difficulty</h1>
       <div className="difficulty-buttons">
         <button className="play-btn" onClick={() => setSelected('easy')}>
