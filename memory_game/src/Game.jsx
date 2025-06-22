@@ -25,6 +25,9 @@ function Game({ rows, cols }) {
   const [cards, setCards] = useState([]);
   const [showAll, setShowAll] = useState(true);
   const [countdown, setCountdown] = useState(5);
+  const [selected, setSelected] = useState([]); // indices of selected cards
+  const [matched, setMatched] = useState([]); // indices of matched cards
+  const [lose, setLose] = useState(false);
 
   useEffect(() => {
     // Pick images for pairs
@@ -33,6 +36,9 @@ function Game({ rows, cols }) {
     setCards(cardImages);
     setShowAll(true);
     setCountdown(5);
+    setSelected([]);
+    setMatched([]);
+    setLose(false);
     const timer = setTimeout(() => setShowAll(false), 5000);
     return () => {
       clearTimeout(timer);
@@ -52,11 +58,35 @@ function Game({ rows, cols }) {
     };
   }, [showAll]);
 
+  useEffect(() => {
+    if (selected.length === 2) {
+      const [first, second] = selected;
+      if (cards[first] === cards[second]) {
+        setMatched(prev => [...prev, first, second]);
+        setTimeout(() => setSelected([]), 800);
+      } else {
+        setLose(true);
+      }
+    }
+  }, [selected, cards]);
+
+  const handleCardClick = idx => {
+    if (showAll || matched.includes(idx) || selected.includes(idx) || lose) return;
+    if (selected.length < 2) {
+      setSelected(prev => [...prev, idx]);
+    }
+  };
+
   return (
     <div className="game-container">
       {showAll && (
         <div style={{ fontSize: '2rem', color: 'var(--accent)', marginBottom: '10px' }}>
           Memorize the cards! {countdown}
+        </div>
+      )}
+      {lose && (
+        <div style={{ fontSize: '2rem', color: 'var(--error)', marginBottom: '10px' }}>
+          You lost! Try again!
         </div>
       )}
       <div
@@ -71,19 +101,24 @@ function Game({ rows, cols }) {
           margin: '20px auto',
         }}
       >
-        {cards.map((img, idx) => (
-          <button
-            className="game-btn"
-            key={idx}
-            style={{ width: '120px', height: '120px' }}
-          >
-            {showAll ? (
-              <img src={img} alt="card" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '10px' }} />
-            ) : (
-              "?"
-            )}
-          </button>
-        ))}
+        {cards.map((img, idx) => {
+          const isRevealed = showAll || matched.includes(idx) || selected.includes(idx);
+          return (
+            <button
+              className={`game-btn${isRevealed ? ' revealed' : ''}`}
+              key={idx}
+              style={{ width: '120px', height: '120px' }}
+              onClick={() => handleCardClick(idx)}
+              disabled={isRevealed || lose}
+            >
+              {isRevealed ? (
+                <img src={img} alt="card" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '10px' }} />
+              ) : (
+                "?"
+              )}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
