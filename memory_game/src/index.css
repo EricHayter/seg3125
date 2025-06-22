@@ -170,6 +170,29 @@ button:focus-visible {
   color: var(--text-dark);
 }
 
+p {
+  font-size: 1.35rem;
+  font-weight: bold;
+  color: var(--text-dark);
+  text-shadow: 1px 1px 4px #fff, 0 0 2px var(--accent);
+  margin-bottom: 1em;
+}
+
+.memorize-message {
+  color: var(--accent);
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 4px #fff, 0 0 2px var(--accent);
+  margin-bottom: 10px;
+}
+.lose-message {
+  color: var(--error);
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 4px #fff, 0 0 2px var(--error);
+  margin-bottom: 10px;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: var(--text-dark);

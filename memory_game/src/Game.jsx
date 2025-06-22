@@ -80,14 +80,14 @@ function Game({ rows, cols }) {
   return (
     <div className="game-container">
       {showAll && (
-        <div style={{ fontSize: '2rem', color: 'var(--accent)', marginBottom: '10px' }}>
+        <p className="memorize-message">
           Memorize the cards! {countdown}
-        </div>
+        </p>
       )}
       {lose && (
-        <div style={{ fontSize: '2rem', color: 'var(--error)', marginBottom: '10px' }}>
+        <p className="lose-message">
           You lost! Try again!
-        </div>
+        </p>
       )}
       <div
         className="game-grid"
